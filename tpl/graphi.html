@@ -1,0 +1,48 @@
+<div id="graphiql" style="height: 100vh;"></div>
+
+<style>
+    body { margin: 0; }
+    body>.x:first-child { min-width: unset; max-width: unset; }
+</style>
+<link href="https://cdn.jsdelivr.net/npm/graphiql@1.0/graphiql.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.58/theme/monokai.css" />
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@16.13/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@16.13/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/graphiql@1.0/graphiql.min.js"></script>
+
+<script>
+    var graphQLFetcher = function graphQLFetcher (graphQLParams) {
+        return fetch(request_uri + 'querykit-graphql', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': '{\Rhymix\Framework\Session::getGenericToken()}'
+            },
+            body: JSON.stringify(graphQLParams),
+        })
+            .then(function (response) { return response.json() })
+            .catch(function () { return response.text() });
+    }
+
+    var state = {
+        fetcher: graphQLFetcher,
+        docExplorerOpen: true,
+        headerEditorEnabled: true,
+        shouldPersistHeaders: true,
+        defaultQuery:[
+            '{',
+            '  me {',
+            '    memberSrl',
+            '    nickName',
+            '  }',
+            '}',
+            '',
+        ].join("\r\n"),
+        editorTheme: 'monokai'
+    }
+
+    ReactDOM.render(
+        React.createElement(GraphiQL, state),
+        document.getElementById('graphiql'),
+    );
+</script>

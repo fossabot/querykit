@@ -1,0 +1,50 @@
+type Query {
+  me: Member
+}
+
+type Member {
+  memberSrl: ID!
+
+  userId: String
+  userName: String
+  nickName: String!
+
+  profileImage: String
+  imageName: String
+  imageMark: String
+
+  emailAddress: String
+  phoneType: String
+  phoneCountry: String
+  phoneNumber: String
+  birthday: String
+  homepage: String
+  blog: String
+  signature: String
+
+  ipaddress: String
+  lastLogin: String # TODO date
+  lastLoginIpaddress: String
+  changePasswordDate: String # TODO date
+
+  allowMailing: Boolean!
+  allowMessage: MemberAllowMessageEnum!
+
+  isAdmin: Boolean!
+  isSiteAdmin: Boolean!
+  denied: Boolean!
+  limitDate: String # TODO date
+  # description: String
+
+  regdate: String! # TODO date
+  notification(limit: Int = 10, page: Int = 1): NotificationPagination
+}
+
+enum MemberAllowMessageEnum {
+  "전체 수신"
+  ALLOWED
+  "수신 거부"
+  DISALLOWED
+  "친구만"
+  ONLY_FRIEND
+}

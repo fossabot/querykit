@@ -1,0 +1,174 @@
+type Query {
+  notification(limit: Int = 10, page: Int = 1): NotificationPagination
+}
+
+type NotificationPagination implements Pagination {
+  pagination: PaginationNode
+  edges: [Notification]
+}
+
+interface Notification {
+  notify: ID!
+
+  originSrl: Int!
+  originType: NotificationOriginEunm!
+
+  # 수신자
+  # memberSrl: Int!
+
+  # targetSrl: Int!
+  # targetPSrl: Int!
+  eventType: NotificationEventEnum!
+
+  # author, sender
+  targetMemberSrl: Int!
+  targetNickName: String!
+  targetUserId: String!
+
+  # targetBrowser: String # 브라우저 타이틀??
+  # targetSummary: String
+  # targetBody: String
+  # targetUrl: String
+
+  readed: Boolean!
+  regdate: String! # TODO date
+}
+
+type CommonNotification implements Notification {
+  notify: ID!
+  originSrl: Int!
+  originType: NotificationOriginEunm!
+
+  # recipient
+  memberSrl: Int!
+
+  targetSrl: Int!
+  targetPSrl: Int!
+  eventType: NotificationEventEnum!
+
+  # author, sender
+  targetMemberSrl: Int!
+  targetNickName: String!
+  targetUserId: String!
+
+  targetBrowser: String # 브라우저 타이틀??
+  targetSummary: String
+  targetBody: String
+  targetUrl: String
+
+  readed: Boolean!
+  regdate: String! # TODO date
+}
+
+interface Notification {
+  notify: ID!
+
+  originSrl: Int!
+  originType: NotificationOriginEunm!
+
+  # 수신자
+  # memberSrl: Int!
+
+  # targetSrl: Int!
+  # targetPSrl: Int!
+  eventType: NotificationEventEnum!
+
+  # author, sender
+  targetMemberSrl: Int!
+  targetNickName: String!
+  targetUserId: String!
+
+  # targetBrowser: String # 브라우저 타이틀??
+  # targetSummary: String
+  # targetBody: String
+  # targetUrl: String
+
+  readed: Boolean!
+  regdate: String! # TODO date
+}
+
+type NewDocumetNotification implements Notification {
+  notify: ID!
+
+  originSrl: Int!
+  originType: NotificationOriginEunm!
+  eventType: NotificationEventEnum!
+
+  # author, sender
+  targetMemberSrl: Int!
+  targetNickName: String!
+  targetUserId: String!
+  targetSummary: String!
+
+  document: Document
+
+  readed: Boolean!
+  regdate: String! # TODO date
+}
+
+enum NotificationOriginEunm {
+  "글"
+  DOCUMENT
+
+  "댓글"
+  COMMENT
+
+  "쪽지"
+  MESSAGE
+
+  "테스트"
+  TEST
+
+  CUSTOM
+  CUSTOM_STRING
+  CUSTOM_LANG
+  CUSTOM_LANG_WITH_VARIABLES
+}
+
+enum NotificationEventEnum {
+  """
+  새 댓글
+
+  내가 작성한 글의 댓글 및 댓글의 대댓글
+  """
+  COMMENT
+
+  """
+  작성한 글의 모든 새 댓글
+
+  내 글에 작성된 **모든** 새로운 댓글 알림
+  """
+  COMMENT_ALL
+
+  "멘션"
+  MENTION
+
+  "새 쪽지 수신함"
+  MESSAGE
+
+  """
+  작성한 글이 추천 됨
+
+  작성한 글이 추천되면 작성자에게 알림
+  """
+  VOTED
+
+  """
+  작성한 글이 스크랩 됨
+
+  작성한 글을 다른 회원이 스크랩하면 작성자에게 알림
+  """
+  SCRAPPED
+
+  "테스트"
+  TEST
+
+  CUSTOM
+
+  # 관리자 수신용 알림
+  "관리자: 새로운 글"
+  ADMIN_NEW_DOCUMENT
+
+  "관리자: 새로운 댓글"
+  ADMIN_NEW_COMMENT
+}

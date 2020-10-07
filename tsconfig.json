@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+  },
+  "include": [
+    "assets/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+  ]
+}

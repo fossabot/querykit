@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <grants>
+    </grants>
+
+    <actions>
+        <action name="procQuerykitGrqphql" type="controller" global-route="true">
+            <route route="querykit-graphql" />
+        </action>
+        <action name="dispQuerykitAdminGraphi" type="view" global-route="true">
+            <route route="querykit-graphi" />
+        </action>
+    </actions>
+
+    <menus>
+        <menu name="querykit" type="all">
+            <title xml:lang="ko">querykit</title>
+        </menu>
+    </menus>
+</module>

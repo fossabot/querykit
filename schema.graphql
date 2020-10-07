@@ -1,0 +1,229 @@
+type Query {
+  document(documentSrl: Int!): Document
+  me: Member
+  notification(limit: Int = 10, page: Int = 1): NotificationPagination
+}
+
+enum NoticeEnum {
+  """공지"""
+  NOTICE
+
+  """전체 공지"""
+  GLOBAL_NOTICE
+
+  """공지 아님"""
+  FALSE
+}
+
+enum CommentStatusEnum {
+  """댓글 허용"""
+  ALLOW
+
+  """댓글 차단"""
+  DENY
+}
+
+type Document {
+  documentSrl: ID!
+  moduleSrl: Int
+  categorySrl: Int
+  title: String!
+  content: String!
+  contentSummary: String
+  memberSrl: Int
+  userName: String
+  nickName: String
+
+  """공지사항 상태"""
+  isNotice: NoticeEnum!
+
+  """댓글 상태"""
+  commentStatus: CommentStatusEnum!
+  thumbnailUrl(width: Int = 304, height: Int = 171): String
+
+  """조회 수"""
+  readedCount: Int!
+
+  """추천 수"""
+  votedCount: Int!
+
+  """비추천 수"""
+  blamedCount: Int!
+
+  """댓글 수"""
+  commentCount: Int!
+
+  """파일 첨부 수"""
+  uploadedCount: Int!
+  regdate: String
+  lastUpdate: String
+}
+
+type Member {
+  memberSrl: ID!
+  userId: String
+  userName: String
+  nickName: String!
+  profileImage: String
+  imageName: String
+  imageMark: String
+  emailAddress: String
+  phoneType: String
+  phoneCountry: String
+  phoneNumber: String
+  birthday: String
+  homepage: String
+  blog: String
+  signature: String
+  ipaddress: String
+  lastLogin: String
+  lastLoginIpaddress: String
+  changePasswordDate: String
+  allowMailing: Boolean!
+  allowMessage: MemberAllowMessageEnum!
+  isAdmin: Boolean!
+  isSiteAdmin: Boolean!
+  denied: Boolean!
+  limitDate: String
+  regdate: String!
+  notification(limit: Int = 10, page: Int = 1): NotificationPagination
+}
+
+enum MemberAllowMessageEnum {
+  """전체 수신"""
+  ALLOWED
+
+  """수신 거부"""
+  DISALLOWED
+
+  """친구만"""
+  ONLY_FRIEND
+}
+
+type NotificationPagination implements Pagination {
+  pagination: PaginationNode
+  edges: [Notification]
+}
+
+interface Notification {
+  eventType: NotificationEventEnum!
+  notify: ID!
+  originSrl: Int!
+  originType: NotificationOriginEunm!
+  readed: Boolean!
+  regdate: String!
+  targetMemberSrl: Int!
+  targetNickName: String!
+  targetUserId: String!
+}
+
+type CommonNotification implements Notification {
+  notify: ID!
+  originSrl: Int!
+  originType: NotificationOriginEunm!
+  memberSrl: Int!
+  targetSrl: Int!
+  targetPSrl: Int!
+  eventType: NotificationEventEnum!
+  targetMemberSrl: Int!
+  targetNickName: String!
+  targetUserId: String!
+  targetBrowser: String
+  targetSummary: String
+  targetBody: String
+  targetUrl: String
+  readed: Boolean!
+  regdate: String!
+}
+
+type NewDocumetNotification implements Notification {
+  notify: ID!
+  originSrl: Int!
+  originType: NotificationOriginEunm!
+  eventType: NotificationEventEnum!
+  targetMemberSrl: Int!
+  targetNickName: String!
+  targetUserId: String!
+  targetSummary: String!
+  document: Document
+  readed: Boolean!
+  regdate: String!
+}
+
+enum NotificationOriginEunm {
+  """글"""
+  DOCUMENT
+
+  """댓글"""
+  COMMENT
+
+  """쪽지"""
+  MESSAGE
+
+  """테스트"""
+  TEST
+  CUSTOM
+  CUSTOM_STRING
+  CUSTOM_LANG
+  CUSTOM_LANG_WITH_VARIABLES
+}
+
+enum NotificationEventEnum {
+  """
+  새 댓글
+  
+  내가 작성한 글의 댓글 및 댓글의 대댓글
+  """
+  COMMENT
+
+  """
+  작성한 글의 모든 새 댓글
+  
+  내 글에 작성된 **모든** 새로운 댓글 알림
+  """
+  COMMENT_ALL
+
+  """멘션"""
+  MENTION
+
+  """새 쪽지 수신함"""
+  MESSAGE
+
+  """
+  작성한 글이 추천 됨
+  
+  작성한 글이 추천되면 작성자에게 알림
+  """
+  VOTED
+
+  """
+  작성한 글이 스크랩 됨
+  
+  작성한 글을 다른 회원이 스크랩하면 작성자에게 알림
+  """
+  SCRAPPED
+
+  """테스트"""
+  TEST
+  CUSTOM
+
+  """관리자: 새로운 글"""
+  ADMIN_NEW_DOCUMENT
+
+  """관리자: 새로운 댓글"""
+  ADMIN_NEW_COMMENT
+}
+
+interface Pagination {
+  pagination: PaginationNode
+}
+
+type PaginationNode {
+  totalCount: Int!
+  totalPage: Int!
+  currentPage: Int!
+  previousPage: Int
+  nextPage: Int
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}

@@ -1,0 +1,54 @@
+type Query {
+  document(documentSrl: Int!): Document
+}
+
+enum NoticeEnum {
+  "공지"
+  NOTICE
+  "전체 공지"
+  GLOBAL_NOTICE
+  "공지 아님"
+  FALSE
+}
+
+enum CommentStatusEnum {
+  "댓글 허용"
+  ALLOW
+  "댓글 차단"
+  DENY
+}
+
+type Document {
+  documentSrl: ID!
+  moduleSrl: Int
+  categorySrl: Int
+
+  title: String!
+  content: String!
+  contentSummary: String
+
+  memberSrl: Int
+  userName: String
+  nickName: String
+
+  "공지사항 상태"
+  isNotice: NoticeEnum!
+  "댓글 상태"
+  commentStatus: CommentStatusEnum!
+
+  thumbnailUrl(width: Int = 304, height: Int = 171): String
+
+  "조회 수"
+  readedCount: Int!
+  "추천 수"
+  votedCount: Int!
+  "비추천 수"
+  blamedCount: Int!
+  "댓글 수"
+  commentCount: Int!
+  "파일 첨부 수"
+  uploadedCount: Int!
+
+  regdate: String
+  lastUpdate: String
+}

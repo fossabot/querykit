@@ -1,0 +1,10 @@
+{
+  "require": {
+    "webonyx/graphql-php": "^14.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "RXPublic\\QueryKit\\": "src/"
+    }
+  }
+}

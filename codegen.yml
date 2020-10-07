@@ -1,0 +1,10 @@
+schema:
+  - 'src/Schema/**/*.graphql'
+  - '!src/Schema/**/_*.graphql'
+generates:
+  schema.graphql:
+    plugins:
+      - schema-ast
+  assets/src/introspection-result.js:
+    plugins:
+      - fragment-matcher

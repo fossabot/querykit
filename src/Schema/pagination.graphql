@@ -1,0 +1,14 @@
+interface Pagination {
+  pagination: PaginationNode
+  # edges: [TYPE]
+}
+
+type PaginationNode {
+  totalCount: Int!
+  totalPage: Int!
+  currentPage: Int!
+  previousPage: Int
+  nextPage: Int
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
